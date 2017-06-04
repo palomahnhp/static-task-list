@@ -1,9 +1,15 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
-  
+  before_action :all_tasks, only: [:index, :create]
+  before_action :set_tasks, only: [:edit, :update]
+
+  respond_to :html, :js
+
   def index
-    @tasks = Task.all
-  end
+     respond_to do |format|
+       format.html
+       format.json
+     end
+   end
 
   def new
     @task = Task.new
@@ -41,6 +47,10 @@ class TasksController < ApplicationController
 
     def set_task
       @task = Task.find(params[:id])
+    end
+
+    def all_tasks
+      @tasks = Task.all
     end
 
     def task_params
